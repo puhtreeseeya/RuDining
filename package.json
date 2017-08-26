@@ -1,0 +1,27 @@
+{
+  "name": "rudining",
+  "version": "1.0.0",
+  "description": "An app to let you know if your friends are dining",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4",
+    "html": "^1.0.0",
+    "nunjucks": "^3.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/puhtreeseeya/RuDining.git"
+  },
+  "author": "me",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/puhtreeseeya/RuDining/issues"
+  },
+  "homepage": "https://github.com/puhtreeseeya/RuDining#readme"
+}

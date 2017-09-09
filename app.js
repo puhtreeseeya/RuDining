@@ -11,13 +11,11 @@ const routes = require('./routes');
 
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static(resolve(__dirname, '..', 'public'))) 
+app.use(express.static(resolve('__dirname', '..', 'public')))
 
-// app.set('view engine', 'html'); 
-// app.engine('html', nunjucks.render); 
-
-// app.use(routes);
-// app.use(express.static('views'));
+// app.get('/', (req, res, next) => {
+// 	res.send("<h1>HELLO</h1>")
+// })
 
 module.exports = app; 
 

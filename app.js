@@ -5,14 +5,30 @@ const { resolve } = require('path');
 const express = require('express'); 
 const nunjucks = require('nunjucks'); 
 const app = express(); 
-var validator = require('validator');
+const validator = require('validator');
+const passport = require('passport'); 
+const session = require('express-session'); 
+const db = require('./db/index.js'); 
+
+/*
+* Session and Passport Configuration
+*/
 
 
-const db = require('./db/index.js')
+
+/*
+* Middleware for engine setup, serving static files, and routing via api routes. 
+*/
+
 
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(resolve('__dirname', '..', 'public')))
+app.use('/api', require('./server/api')) 
+
+
+
+
 
 
 module.exports = app; 

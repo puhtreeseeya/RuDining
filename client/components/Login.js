@@ -6,7 +6,7 @@ import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import { loginValidations } from '../../server/shared/validations'; 
-
+import store, { sendSingleUserFromLogin } from '../store'; 
 
 class Login extends Component {
 	constructor() {
@@ -21,7 +21,10 @@ class Login extends Component {
 
 	onSubmit(event) {
 		event.preventDefault(); 
-
+		const username = this.state.username; 
+		const password = this.state.password; 
+		const user = { username, password }; 
+		store.dispatch(sendSingleUserFromLogin(user)); 
 	}
 
 
@@ -62,7 +65,7 @@ class Login extends Component {
 							    <Divider />
 							    <div>
 							    <br/> 
-    								<RaisedButton type="submit" label="Submit" primary={true} style={style} />
+    								<RaisedButton type="submit" label="Login" primary={true} style={style} />
     							</div> 
     							<br/>
 								</div> 

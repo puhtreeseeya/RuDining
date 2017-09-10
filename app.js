@@ -3,28 +3,55 @@ const bodyParser = require('body-parser');
 const path = require('path'); 
 const { resolve } = require('path'); 
 const express = require('express'); 
+const session = require('express-session'); 
 const nunjucks = require('nunjucks'); 
 const app = express(); 
 const validator = require('validator');
-const passport = require('passport'); 
-const session = require('express-session'); 
+const passport = require('passport');
+const localStrategy = require('passport-local').Strategy; 
 const db = require('./db/index.js'); 
+const User = db.models.user; 
+const bcrypt = require('bcrypt'); 
 
 /*
 * Session and Passport Configuration
 */
+const strategy = new localStrategy((username, password, done) => { 
+  User.findOne({
+    where: { username }
+  }).then(user => {
+    const hash = bcrypt.hashSync(password, 10); 
+    if(!user) {
+      return done(null, false, { message: 'Incorrect username'}); 
+    }
+    if(!bcrypt.compareSync(password, hash)) {
+      return done(null, false, { message: 'Incorrect password'}); 
+    }
+    return done(null, user); 
+  })
+})
 
+
+passport.use('local', strategy);  
 
 
 /*
 * Middleware for engine setup, serving static files, and routing via api routes. 
 */
 
-
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static(resolve('__dirname', '..', 'public')))
-app.use('/api', require('./server/api')) 
+app.use(express.static(resolve('__dirname', '..', 'public'))); 
+
+
+app.use(session({secret: 'keyboard cat', resave: true, saveUninitialized: true})); 
+app.use(passport.initialize()); 
+app.use(passport.session()); 
+app.use('/api', require('./server/api.js')); 
+app.use('/auth', require('./server/auth.js')); 
+
+
+
 
 
 

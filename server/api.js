@@ -4,6 +4,7 @@ const db = require('../db/index.js')
 const User = db.models.user; 
 const bcrypt = require('bcrypt'); 
 
+
 api.post('/register', (req, res, next) => {
 	const password = req.body.password; 
 	bcrypt.hash(password, 10, (err, bcryptedPassword) => {
@@ -20,6 +21,7 @@ api.post('/register', (req, res, next) => {
 		}
 	})
 }); 
+ 
 
 api.get('/user/:username', (req, res, next) => {
 	console.log(req.params.username); 

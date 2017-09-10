@@ -17192,7 +17192,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.getSingleUser = getSingleUser;
 exports.postSingleUser = postSingleUser;
 exports.sendSingleUserFromLogin = sendSingleUserFromLogin;
-exports.fetchSingleUserFromLoginInfo = fetchSingleUserFromLoginInfo;
+exports.fetchSingleUserFromLogin = fetchSingleUserFromLogin;
 exports.default = reducer;
 
 var _reduxThunk = __webpack_require__(125);
@@ -17229,9 +17229,10 @@ function sendSingleUserFromLogin(user) {
 	};
 }
 
-function fetchSingleUserFromLoginInfo(user) {
+function fetchSingleUserFromLogin(user) {
+	console.log(user);
 	return function thunk(dispatch) {
-		return _axios2.default.get('/api/users/' + user.username).then(function (res) {
+		return _axios2.default.post('/auth/login', user).then(function (res) {
 			return res.data;
 		}).then(function (user) {
 			var action = getSingleUser(user);
@@ -34360,17 +34361,16 @@ var Login = function (_Component) {
 				usernameErr: errors.username,
 				passwordErr: errors.password
 			}, function () {
-				console.log(_this2.state);
+				_this2.onSubmit(event);
 			});
 		}
 	}, {
 		key: 'onSubmit',
 		value: function onSubmit(event) {
-			event.preventDefault();
 			var username = this.state.username;
 			var password = this.state.password;
 			var user = { username: username, password: password };
-			_store2.default.dispatch((0, _store.sendSingleUserFromLogin)(user));
+			_store2.default.dispatch((0, _store.fetchSingleUserFromLogin)(user));
 		}
 	}, {
 		key: 'onChange',

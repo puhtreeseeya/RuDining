@@ -6,7 +6,7 @@ import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import { loginValidations } from '../../server/shared/validations'; 
-import store, { sendSingleUserFromLogin } from '../store'; 
+import store, { sendSingleUserFromLogin , fetchSingleUserFromLogin } from '../store'; 
 import { validateLogin } from '../../server/shared/validations.js'; 
 
 class Login extends Component {
@@ -31,16 +31,15 @@ class Login extends Component {
 			usernameErr : errors.username, 
 			passwordErr : errors.password
 		}, () => {
-			console.log(this.state); 
+			this.onSubmit(event); 
 		}) 
 	}
 
 	onSubmit(event) {
-		event.preventDefault(); 
 		const username = this.state.username; 
 		const password = this.state.password; 
 		const user = { username, password }; 
-		store.dispatch(sendSingleUserFromLogin(user)); 
+		store.dispatch(fetchSingleUserFromLogin(user)); 
 	}
 
 	onChange(event) {

@@ -25,9 +25,10 @@ export function sendSingleUserFromLogin(user) {
 	}
 }
 
-export function fetchSingleUserFromLoginInfo(user) {
+export function fetchSingleUserFromLogin(user) {
+	console.log(user); 
 	return function thunk (dispatch) {
-		return axios.get('/api/users/' + user.username)
+		return axios.post('/auth/login', user)
 		.then(res => res.data)
 		.then(user => {
 			const action = getSingleUser(user); 

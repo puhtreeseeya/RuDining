@@ -7,16 +7,32 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import { loginValidations } from '../../server/shared/validations'; 
 import store, { sendSingleUserFromLogin } from '../store'; 
+import { validateLogin } from '../../server/shared/validations.js'; 
 
 class Login extends Component {
 	constructor() {
 		super(); 
 		this.state = {
 			username : '', 
-			password: ''
+			password: '', 
+			usernameErr : '', 
+			passwordErr : ''
 		}; 
 		this.onSubmit = this.onSubmit.bind(this); 
-		this.onChange = this.onChange.bind(this); 
+		this.onChange = this.onChange.bind(this);
+		this.canSubmit = this.canSubmit.bind(this); 
+	}
+
+	canSubmit(event) {
+		event.preventDefault(); 
+		let errors = validateLogin(this.state);
+		console.log(errors); 
+		this.setState({
+			usernameErr : errors.username, 
+			passwordErr : errors.password
+		}, () => {
+			console.log(this.state); 
+		}) 
 	}
 
 	onSubmit(event) {
@@ -26,8 +42,6 @@ class Login extends Component {
 		const user = { username, password }; 
 		store.dispatch(sendSingleUserFromLogin(user)); 
 	}
-
-
 
 	onChange(event) {
 		this.setState({[event.target.name] : event.target.value})
@@ -40,7 +54,7 @@ class Login extends Component {
 			<div className="container">
 				<div className="col-xs-10 col-sm-8 col-md-6 col-lg-5 col-centered"> 
 				  <Paper zDepth={2}>
-							<form onSubmit={this.onSubmit}>
+							<form onSubmit={this.canSubmit}>
 								<div>
 									<TextField
 							      hintText="Username Field"
@@ -49,7 +63,7 @@ class Login extends Component {
 							      style={style}
 							      name="username"
 							      onChange={this.onChange}
-							      errorText={this.error}
+							      errorText={this.state.usernameErr}
 							    />
 									<Divider />
 									<TextField
@@ -60,7 +74,7 @@ class Login extends Component {
 							      style={style}
 							      name="password"
 							      onChange={this.onChange}
-							      errorText={this.error}
+							      errorText={this.state.passwordErr}
 							    /> 
 							    <Divider />
 							    <div>
@@ -71,7 +85,6 @@ class Login extends Component {
 								</div> 
 							</form> 
 					</Paper>
-
 					</div> 
 			</div> 
 		)

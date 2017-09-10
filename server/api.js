@@ -21,4 +21,13 @@ api.post('/register', (req, res, next) => {
 	})
 }); 
 
+api.get('/user/:username', (req, res, next) => {
+	console.log(req.params.username); 
+	User.findOne({
+		where: { username : req.params.username }
+	}).then(user => {
+		res.json(user); 
+	})
+})
+
 module.exports = api

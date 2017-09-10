@@ -4,27 +4,49 @@ import NavBar from './NavBar';
 import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
+import RaisedButton from 'material-ui/RaisedButton';
+import { loginValidations } from '../../server/shared/validations'; 
 
 
 class Login extends Component {
+	constructor() {
+		super(); 
+		this.state = {
+			username : '', 
+			password: ''
+		}; 
+		this.onSubmit = this.onSubmit.bind(this); 
+		this.onChange = this.onChange.bind(this); 
+	}
+
+	onSubmit(event) {
+		event.preventDefault(); 
+
+	}
+
+
+
+	onChange(event) {
+		this.setState({[event.target.name] : event.target.value})
+	}
+
+
 	render() {
-		const style = {
-		  marginLeft: 20,
-		};
-
-
-
+		const style = { marginLeft: 20, }; 
 		return (
 			<div className="container">
-				<div className="row"> 
+				<div className="col-xs-10 col-sm-8 col-md-6 col-lg-5 col-centered"> 
 				  <Paper zDepth={2}>
-							<form action="" class="loginForm">
-								<div class="input-group">
+							<form onSubmit={this.onSubmit}>
+								<div>
 									<TextField
-							      hintText="Hint Text"
-							      floatingLabelText="Floating Label Text"
+							      hintText="Username Field"
+							      floatingLabelText="Username"
 							      underlineShow={false}
 							      style={style}
+							      name="username"
+							      onChange={this.onChange}
+							      errorText={this.error}
 							    />
 									<Divider />
 									<TextField
@@ -33,9 +55,16 @@ class Login extends Component {
 							      type="password"
 							      underlineShow={false}
 							      style={style}
+							      name="password"
+							      onChange={this.onChange}
+							      errorText={this.error}
 							    /> 
 							    <Divider />
-									<input type="submit" id="submit" class="form-control" value="Submit"></input> 
+							    <div>
+							    <br/> 
+    								<RaisedButton type="submit" label="Submit" primary={true} style={style} />
+    							</div> 
+    							<br/>
 								</div> 
 							</form> 
 					</Paper>
